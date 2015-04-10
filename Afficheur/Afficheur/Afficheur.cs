@@ -26,7 +26,9 @@ namespace Afficheur
             {
                 string cheminDossier = explorateurDeFichier.SelectedPath;
                 selecteurImage.init(cheminDossier);
+                Refresh();
             }
+            
         }
     }
 }

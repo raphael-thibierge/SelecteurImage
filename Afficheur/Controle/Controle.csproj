@@ -51,6 +51,7 @@
     <Compile Include="Selecteur.Designer.cs">
       <DependentUpon>Selecteur.cs</DependentUpon>
     </Compile>
+    <Compile Include="Selection.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Selecteur.resx">

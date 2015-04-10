@@ -28,31 +28,36 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.hScrollBar1 = new System.Windows.Forms.HScrollBar();
+            this.barreDéfilement = new System.Windows.Forms.HScrollBar();
             this.SuspendLayout();
             // 
-            // hScrollBar1
+            // barreDéfilement
             // 
-            this.hScrollBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.hScrollBar1.Location = new System.Drawing.Point(0, 133);
-            this.hScrollBar1.Name = "hScrollBar1";
-            this.hScrollBar1.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.hScrollBar1.Size = new System.Drawing.Size(150, 17);
-            this.hScrollBar1.TabIndex = 0;
+            this.barreDéfilement.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.barreDéfilement.Location = new System.Drawing.Point(0, 283);
+            this.barreDéfilement.Name = "barreDéfilement";
+            this.barreDéfilement.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.barreDéfilement.Size = new System.Drawing.Size(300, 17);
+            this.barreDéfilement.TabIndex = 0;
+            this.barreDéfilement.Scroll += new System.Windows.Forms.ScrollEventHandler(this.défilement);
             // 
             // Selecteur
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.hScrollBar1);
+            this.Controls.Add(this.barreDéfilement);
+            this.DoubleBuffered = true;
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Selecteur";
+            this.Size = new System.Drawing.Size(300, 300);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Selecteur_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Selecteur_MouseDown);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.HScrollBar hScrollBar1;
+        private System.Windows.Forms.HScrollBar barreDéfilement;
     }
 }
