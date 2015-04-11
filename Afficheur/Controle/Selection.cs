@@ -25,6 +25,15 @@ namespace Controle
             _rectangle = rectangle;
         }
 
+        public Selection(Miniature miniature)
+        {
+            int epaisseur = 2;
+            _pinceau = new Pen(Color.Red, epaisseur);
+            _cheminImage = miniature.Chemmin;
+            _rectangle = miniature.Rectangle;
+        }
+
+
 
         #region Accesseurs
 

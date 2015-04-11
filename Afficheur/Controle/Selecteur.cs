@@ -12,11 +12,11 @@ namespace Controle
 {
     public partial class Selecteur : UserControl
     {
-
-        List<String> _listeCheminImages;
-        List<Image> _listeMiniatures;
+        List<Miniature> _listeMiniatures;
         int largeurDefaultMiniature;
         int hauteurDefaultMiniature;
+        int largeur;
+
         Point origine;
 
         Selection selection;
@@ -24,8 +24,7 @@ namespace Controle
            public Selecteur()
         {
             InitializeComponent();
-            _listeCheminImages = new List<String>();
-            _listeMiniatures = new List<Image>();
+            _listeMiniatures = new List<Miniature>();
             hauteurDefaultMiniature = this.Height-barreDéfilement.Height;
             largeurDefaultMiniature = hauteurDefaultMiniature;
             origine = new Point(0, 0);
@@ -44,11 +43,8 @@ namespace Controle
             if (_listeMiniatures.Count > 0)
                 _listeMiniatures.Clear();
 
-            if (_listeCheminImages.Count > 0)
-                _listeCheminImages.Clear();
-
-
             // Pour chaques fichiers trouvées dans le répertoire
+            int largeur = 0;
             foreach (string nomDuFichier in System.IO.Directory.GetFiles(cheminDossier))
             {
                 // type d'images gérées
@@ -58,18 +54,21 @@ namespace Controle
                     || System.IO.Path.GetExtension(nomDuFichier) == ".bmp"
                     )
                 {
-                    // on ajoute le chemin de l'image dans la liste d'image
-                    _listeCheminImages.Add(nomDuFichier);
+                    
 
                     Image image = Image.FromFile(nomDuFichier);
-                    _listeMiniatures.Add(image.GetThumbnailImage(largeurDefaultMiniature, hauteurDefaultMiniature, null, IntPtr.Zero));
+                    int largeurImage = (image.Width * hauteurDefaultMiniature) / image.Height;
+                    Image i = image.GetThumbnailImage(largeurImage, hauteurDefaultMiniature, null, IntPtr.Zero);
+                    _listeMiniatures.Add(new Miniature(i, nomDuFichier, largeur, 0));
+                    largeur += largeurImage;
+                    
 
                 }
             }
             // Mise à jour de la barre de défilement
             if (_listeMiniatures.Count > 0)
             {
-                barreDéfilement.Maximum = (_listeMiniatures.Count()+1) * largeurDefaultMiniature - this.Width;
+                barreDéfilement.Maximum = largeur;
                 barreDéfilement.LargeChange = largeurDefaultMiniature;
                 barreDéfilement.SmallChange = largeurDefaultMiniature;
             }
@@ -77,33 +76,29 @@ namespace Controle
 
         private void Selecteur_Paint(object sender, PaintEventArgs e)
         {
-            if (_listeCheminImages.Count > 0)
+            if (_listeMiniatures.Count() > 0)
             {  
                 int cpt = 0 ;
-                foreach (Image image in _listeMiniatures)
+                foreach (Miniature miniature in _listeMiniatures)
                 {
-                    e.Graphics.DrawImage(image, new Point(largeurDefaultMiniature*cpt+origine.X, 0+origine.Y));
+                    e.Graphics.DrawImage(miniature.Image, new Point(miniature.Position.X+origine.X, miniature.Position.Y+origine.Y));
                     cpt++;
                 }
             }
 
+            // dessin du rectangle de sélection
             if (selection != null)
             {
                 e.Graphics.DrawRectangle(selection.Pinceau, selection.Rect.X+origine.X, 0+origine.Y, selection.Rect.Width, selection.Rect.Height);
-                
             }
            
         }
 
-        //permet de redimensionner une image en fonction de la hauteur du panel
-        public void redimensionnerImage(Image image)
-        {
 
-        }
+
 
         private void défilement(object sender, ScrollEventArgs e)
         {
-       
             switch (e.Type)
             {
                 case ScrollEventType.EndScroll :
@@ -123,9 +118,23 @@ namespace Controle
             {
                 int positionX = e.Location.X - origine.X;
                 positionX -= positionX % largeurDefaultMiniature;
-                selection = new Selection(new Rectangle(positionX, 0, largeurDefaultMiniature, hauteurDefaultMiniature), "ahah");
+                if (trouverMiniature(e.Location) != null){
+                    selection = new Selection(trouverMiniature(e.Location));
+                }
             }
             Refresh();
+        }
+
+        Miniature trouverMiniature(Point p)
+        {
+            foreach (Miniature miniature in _listeMiniatures)
+            {
+                if (miniature.Contient(new Point(p.X-origine.X, p.Y-origine.Y)))
+                {
+                    return miniature;   
+                }
+            }
+            return null;
         }
 
     }
