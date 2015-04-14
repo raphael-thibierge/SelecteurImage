@@ -13,9 +13,8 @@ namespace Controle
         Image _miniature;
         String _cheminImage;
         Pen _pinceau;
-        private string p;
 
-        
+      
 
         public Selection(Rectangle rectangle, string cheminImage )
         {

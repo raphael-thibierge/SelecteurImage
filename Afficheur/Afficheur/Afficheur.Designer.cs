@@ -41,14 +41,16 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.selecteurImage = new Controle.Selecteur();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.BoitePropriété = new System.Windows.Forms.PropertyGrid();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,8 +69,7 @@
             this.ToolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
-            this.toolStrip1.Size = new System.Drawing.Size(1560, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(780, 25);
             this.toolStrip1.TabIndex = 0;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -111,6 +112,7 @@
             // 
             // toolStripSeparator
             // 
+            this.toolStripSeparator.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripSeparator.Name = "toolStripSeparator";
             this.toolStripSeparator.Size = new System.Drawing.Size(6, 25);
             // 
@@ -159,7 +161,6 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 25);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -170,40 +171,54 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
-            this.splitContainer1.Size = new System.Drawing.Size(1560, 1062);
-            this.splitContainer1.SplitterDistance = 329;
-            this.splitContainer1.SplitterWidth = 8;
+            this.splitContainer1.Size = new System.Drawing.Size(780, 507);
+            this.splitContainer1.SplitterDistance = 157;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // splitContainer2
-            // 
-            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.splitContainer2.Name = "splitContainer2";
-            this.splitContainer2.Size = new System.Drawing.Size(1560, 725);
-            this.splitContainer2.SplitterDistance = 518;
-            this.splitContainer2.SplitterWidth = 8;
-            this.splitContainer2.TabIndex = 0;
             // 
             // selecteurImage
             // 
             this.selecteurImage.AutoSize = true;
             this.selecteurImage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selecteurImage.Location = new System.Drawing.Point(0, 0);
-            this.selecteurImage.Margin = new System.Windows.Forms.Padding(12);
+            this.selecteurImage.Margin = new System.Windows.Forms.Padding(6);
             this.selecteurImage.Name = "selecteurImage";
-            this.selecteurImage.Size = new System.Drawing.Size(1560, 329);
+            this.selecteurImage.Size = new System.Drawing.Size(780, 157);
             this.selecteurImage.TabIndex = 0;
+            this.selecteurImage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.selecteurImage_MouseDown);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.BoitePropriété);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.AffichageGrandeImage);
+            this.splitContainer2.Size = new System.Drawing.Size(780, 346);
+            this.splitContainer2.SplitterDistance = 259;
+            this.splitContainer2.TabIndex = 0;
+            // 
+            // BoitePropriété
+            // 
+            this.BoitePropriété.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.BoitePropriété.Location = new System.Drawing.Point(0, 0);
+            this.BoitePropriété.Name = "BoitePropriété";
+            this.BoitePropriété.Size = new System.Drawing.Size(259, 346);
+            this.BoitePropriété.TabIndex = 0;
             // 
             // Afficheur
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1560, 1087);
+            this.ClientSize = new System.Drawing.Size(780, 532);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.toolStrip1);
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Afficheur";
             this.Text = "Afficheur";
             this.toolStrip1.ResumeLayout(false);
@@ -213,6 +228,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer2.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -236,6 +252,7 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.SplitContainer splitContainer2;
         private Controle.Selecteur selecteurImage;
+        private System.Windows.Forms.PropertyGrid BoitePropriété;
     }
 }
 

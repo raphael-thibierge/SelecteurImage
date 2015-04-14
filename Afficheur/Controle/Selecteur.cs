@@ -10,24 +10,51 @@ using System.Windows.Forms;
 
 namespace Controle
 {
+    public class SelectionMiniature : EventArgs
+    {
+        public Miniature miniature;
+        public SelectionMiniature(Miniature m)
+        {
+            miniature = m;
+        }
+    }
+        
+
+        
+
+
     public partial class Selecteur : UserControl
     {
         List<Miniature> _listeMiniatures;
-        int largeurDefaultMiniature;
-        int hauteurDefaultMiniature;
-        int largeur;
+        int _largeurDefaultMiniature;
+        int _hauteurDefaultMiniature;
+        int _largeur;
 
-        Point origine;
+        Point _origine;
 
-        Selection selection;
+        Selection _selection;
+
+     
+
+
+
+       
+        public delegate void SelectionMini(object sender, SelectionMiniature e);
+
+        public event SelectionMini selectionMiniature;
+
+        public string CheminMiniature
+        {
+            get { return _selection.CheminImage; }
+        }
 
            public Selecteur()
         {
             InitializeComponent();
             _listeMiniatures = new List<Miniature>();
-            hauteurDefaultMiniature = this.Height-barreDéfilement.Height;
-            largeurDefaultMiniature = hauteurDefaultMiniature;
-            origine = new Point(0, 0);
+            _hauteurDefaultMiniature = this.Height-barreDéfilement.Height;
+            _largeurDefaultMiniature = _hauteurDefaultMiniature;
+            _origine = new Point(0, 0);
 
             // barre de défilement
             barreDéfilement.Maximum = 0;
@@ -35,7 +62,7 @@ namespace Controle
             barreDéfilement.SmallChange = 0;
 
             // rectangle de selection (j'ai bien envie d'en faire une classe)
-            selection = null;
+            _selection = null;
         }
 
         //initialise toutes les images en fonction du chemin
@@ -57,8 +84,8 @@ namespace Controle
                     
 
                     Image image = Image.FromFile(nomDuFichier);
-                    int largeurImage = (image.Width * hauteurDefaultMiniature) / image.Height;
-                    Image i = image.GetThumbnailImage(largeurImage, hauteurDefaultMiniature, null, IntPtr.Zero);
+                    int largeurImage = (image.Width * _hauteurDefaultMiniature) / image.Height;
+                    Image i = image.GetThumbnailImage(largeurImage, _hauteurDefaultMiniature, null, IntPtr.Zero);
                     _listeMiniatures.Add(new Miniature(i, nomDuFichier, largeur, 0));
                     largeur += largeurImage;
                     
@@ -69,8 +96,8 @@ namespace Controle
             if (_listeMiniatures.Count > 0)
             {
                 barreDéfilement.Maximum = largeur;
-                barreDéfilement.LargeChange = largeurDefaultMiniature;
-                barreDéfilement.SmallChange = largeurDefaultMiniature;
+                barreDéfilement.LargeChange = _largeurDefaultMiniature;
+                barreDéfilement.SmallChange = _largeurDefaultMiniature;
             }
         }
 
@@ -81,15 +108,15 @@ namespace Controle
                 int cpt = 0 ;
                 foreach (Miniature miniature in _listeMiniatures)
                 {
-                    e.Graphics.DrawImage(miniature.Image, new Point(miniature.Position.X+origine.X, miniature.Position.Y+origine.Y));
+                    e.Graphics.DrawImage(miniature.Image, new Point(miniature.Position.X+_origine.X, miniature.Position.Y+_origine.Y));
                     cpt++;
                 }
             }
 
             // dessin du rectangle de sélection
-            if (selection != null)
+            if (_selection != null)
             {
-                e.Graphics.DrawRectangle(selection.Pinceau, selection.Rect.X+origine.X, 0+origine.Y, selection.Rect.Width, selection.Rect.Height);
+                e.Graphics.DrawRectangle(_selection.Pinceau, _selection.Rect.X+_origine.X, 0+_origine.Y, _selection.Rect.Width, _selection.Rect.Height);
             }
            
         }
@@ -102,11 +129,11 @@ namespace Controle
             switch (e.Type)
             {
                 case ScrollEventType.EndScroll :
-                    origine.X = -e.NewValue;
+                    _origine.X = -e.NewValue;
                     break;
 
                 case ScrollEventType.ThumbTrack :
-                    origine.X = -e.NewValue;
+                    _origine.X = -e.NewValue;
                     break;
             }
             Refresh();
@@ -116,10 +143,15 @@ namespace Controle
         {
             if (_listeMiniatures.Count > 0)
             {
-                int positionX = e.Location.X - origine.X;
-                positionX -= positionX % largeurDefaultMiniature;
+                int positionX = e.Location.X - _origine.X;
+                positionX -= positionX % _largeurDefaultMiniature;
                 if (trouverMiniature(e.Location) != null){
-                    selection = new Selection(trouverMiniature(e.Location));
+                    Miniature m = trouverMiniature(e.Location);
+                    _selection = new Selection(m);
+                    if (selectionMiniature != null)
+                    {
+                        selectionMiniature(this, new SelectionMiniature(m));
+                    }
                 }
             }
             Refresh();
@@ -129,13 +161,12 @@ namespace Controle
         {
             foreach (Miniature miniature in _listeMiniatures)
             {
-                if (miniature.Contient(new Point(p.X-origine.X, p.Y-origine.Y)))
+                if (miniature.Contient(new Point(p.X-_origine.X, p.Y-_origine.Y)))
                 {
-                    return miniature;   
+                    return miniature;
                 }
             }
             return null;
         }
-
     }
 }

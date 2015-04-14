@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace Controle
 {
-    class Miniature
+    public class Miniature
     {
        
+
+
+
         private Image _image;
         private string _chemmin;
         private Point _position;
@@ -43,6 +46,8 @@ namespace Controle
             }
             return false;           
         }
+
+
 
         #endregion
 
