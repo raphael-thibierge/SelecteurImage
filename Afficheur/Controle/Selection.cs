@@ -33,7 +33,6 @@ namespace Controle
         }
 
 
-
         #region Accesseurs
 
         public Rectangle Rect

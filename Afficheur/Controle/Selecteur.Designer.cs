@@ -34,22 +34,21 @@
             // barreDéfilement
             // 
             this.barreDéfilement.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.barreDéfilement.Location = new System.Drawing.Point(0, 283);
+            this.barreDéfilement.Location = new System.Drawing.Point(0, 139);
             this.barreDéfilement.Name = "barreDéfilement";
             this.barreDéfilement.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.barreDéfilement.Size = new System.Drawing.Size(300, 17);
+            this.barreDéfilement.Size = new System.Drawing.Size(150, 17);
             this.barreDéfilement.TabIndex = 0;
             this.barreDéfilement.Scroll += new System.Windows.Forms.ScrollEventHandler(this.défilement);
             // 
             // Selecteur
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.barreDéfilement);
             this.DoubleBuffered = true;
-            this.Margin = new System.Windows.Forms.Padding(6);
             this.Name = "Selecteur";
-            this.Size = new System.Drawing.Size(300, 300);
+            this.Size = new System.Drawing.Size(150, 156);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Selecteur_Paint);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Selecteur_MouseDown);
             this.ResumeLayout(false);

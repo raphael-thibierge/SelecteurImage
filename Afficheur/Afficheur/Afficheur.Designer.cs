@@ -41,9 +41,10 @@
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ToolStripButton = new System.Windows.Forms.ToolStripButton();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.selecteurImage = new Controle.Selecteur();
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.BoitePropriété = new System.Windows.Forms.PropertyGrid();
+            this.selecteurImage = new Controle.Selecteur();
+            this.BoutonDiaporama = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -66,7 +67,8 @@
             this.copierToolStripButton,
             this.collerToolStripButton,
             this.toolStripSeparator1,
-            this.ToolStripButton});
+            this.ToolStripButton,
+            this.BoutonDiaporama});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(780, 25);
@@ -174,17 +176,7 @@
             this.splitContainer1.Size = new System.Drawing.Size(780, 507);
             this.splitContainer1.SplitterDistance = 157;
             this.splitContainer1.TabIndex = 1;
-            // 
-            // selecteurImage
-            // 
-            this.selecteurImage.AutoSize = true;
-            this.selecteurImage.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.selecteurImage.Location = new System.Drawing.Point(0, 0);
-            this.selecteurImage.Margin = new System.Windows.Forms.Padding(6);
-            this.selecteurImage.Name = "selecteurImage";
-            this.selecteurImage.Size = new System.Drawing.Size(780, 157);
-            this.selecteurImage.TabIndex = 0;
-            this.selecteurImage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.selecteurImage_MouseDown);
+            this.splitContainer1.Resize += new System.EventHandler(this.FafraichirTailleSelecteur);
             // 
             // splitContainer2
             // 
@@ -210,6 +202,28 @@
             this.BoitePropriété.Name = "BoitePropriété";
             this.BoitePropriété.Size = new System.Drawing.Size(259, 346);
             this.BoitePropriété.TabIndex = 0;
+            // 
+            // selecteurImage
+            // 
+            this.selecteurImage.AutoSize = true;
+            this.selecteurImage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selecteurImage.Location = new System.Drawing.Point(0, 0);
+            this.selecteurImage.Margin = new System.Windows.Forms.Padding(6);
+            this.selecteurImage.Name = "selecteurImage";
+            this.selecteurImage.Size = new System.Drawing.Size(780, 157);
+            this.selecteurImage.TabIndex = 0;
+            this.selecteurImage.selectionMiniature += new Controle.Selecteur.SelectionMini(this.selecteurImage_selectionMiniature);
+            this.selecteurImage.Load += new System.EventHandler(this.selecteurImage_Load);
+            // 
+            // BoutonDiaporama
+            // 
+            this.BoutonDiaporama.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.BoutonDiaporama.Image = ((System.Drawing.Image)(resources.GetObject("BoutonDiaporama.Image")));
+            this.BoutonDiaporama.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.BoutonDiaporama.Name = "BoutonDiaporama";
+            this.BoutonDiaporama.Size = new System.Drawing.Size(69, 22);
+            this.BoutonDiaporama.Text = "Diaporama";
+            this.BoutonDiaporama.Click += new System.EventHandler(this.BoutonDiaporama_Click);
             // 
             // Afficheur
             // 
@@ -253,6 +267,7 @@
         private System.Windows.Forms.SplitContainer splitContainer2;
         private Controle.Selecteur selecteurImage;
         private System.Windows.Forms.PropertyGrid BoitePropriété;
+        private System.Windows.Forms.ToolStripButton BoutonDiaporama;
     }
 }
 

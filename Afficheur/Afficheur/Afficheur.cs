@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Controle;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,17 +13,12 @@ namespace Afficheur
 {
     public partial class Afficheur : Form
     {
-        private Image _imagePrincipale ;
-        string _cheminImage;
-        Image _grandeImage;
+        private Image _imagePrincipale;
 
         public Afficheur()
         {
             _imagePrincipale = null;
-
             InitializeComponent();
-            _cheminImage = null;
-            _grandeImage = null;
         }
 
         private void ouvrirFichier_Click(object sender, EventArgs e)
@@ -39,32 +35,56 @@ namespace Afficheur
             
         }
 
-        private void selecteurImage_MouseDown(object sender, MouseEventArgs e)
-        {
-           _cheminImage = selecteurImage.CheminMiniature;
-           MiseAJourPropiétés();
-           Refresh();
-        }
 
         private void AffichageGrandeImage(object sender, PaintEventArgs e)
         {
-            if (_cheminImage != null)
+            if (_imagePrincipale != null)
             {
-                _grandeImage = Image.FromFile(_cheminImage);
-                int largeurImage = (_grandeImage.Width * splitContainer2.Panel2.Height) / _grandeImage.Height;
-                Image i = _grandeImage.GetThumbnailImage(largeurImage, splitContainer2.Panel2.Height, null, IntPtr.Zero);
+                
+                int largeurImage = (_imagePrincipale.Width * splitContainer2.Panel2.Height) / _imagePrincipale.Height;
+                Image i = _imagePrincipale.GetThumbnailImage(largeurImage, splitContainer2.Panel2.Height, null, IntPtr.Zero);
                 e.Graphics.DrawImage(i, new Point(0, 0));
             }
         }
 
-        private void MiseAJourPropiétés()
+        private void MiseAJourPropiétés(string cheminImage)
         {
-            if (_grandeImage != null)
-            {
-                BoitePropriété.SelectedObject = _grandeImage;
-            }
+            _imagePrincipale = Image.FromFile(cheminImage);
+            BoitePropriété.SelectedObject = _imagePrincipale;
+            Refresh();
+            
         }
 
+        private void selecteurImage_selectionMiniature(object sender, Selecteur.SelectionMiniature e)
+        {
+            MiseAJourPropiétés(e.miniature.Chemmin);
+
+        }
+
+        private void selecteurImage_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FafraichirTailleSelecteur(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void BoutonDiaporama_Click(object sender, EventArgs e)
+        {
+
+            if (selecteurImage.ListeMiniatures.Count > 0)
+            {
+                Timer timer = new Timer();
+                timer.Interval = 2000;
+                foreach (Miniature miniature in selecteurImage.ListeMiniatures)
+                {
+                    MiseAJourPropiétés(miniature.Chemmin);
+
+                }
+            }
+        }
 
     }
 }
